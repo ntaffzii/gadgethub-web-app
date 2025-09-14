@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>หน้าแรก | GadgetHub</title>
+    <meta name="description" content="GadgetHub - แหล่งรวมสินค้าไอที สมาร์ทโฟน แล็ปท็อป และอุปกรณ์เสริม">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>ยินดีต้อนรับสู่ GadgetHub</h1>
+        <p>สวัสดีคุณ {{ current_user.username if current_user.is_authenticated else 'ผู้เยี่ยมชม' }}</p>
+    </header>
+
+    <section>
+        <h2>เกี่ยวกับเรา</h2>
+        <p>GadgetHub คือร้านค้าออนไลน์ที่รวบรวมสินค้าไอทีคุณภาพ ไม่ว่าจะเป็นสมาร์ทโฟน แล็ปท็อป แท็บเล็ต และอุปกรณ์เสริมต่าง ๆ</p>
+    </section>
+
+    <section>
+        <h2>เมนูหลัก</h2>
+        <ul>
+            <li><a href="">ดูสินค้าทั้งหมด</a></li>
+            <li><a href="">ติดต่อเรา</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('auth.logout') }}">ออกจากระบบ</a></li>
+            {% endif %}
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 GadgetHub | พัฒนาโดย Nartting</p>
+    </footer>
+</body>
+</html>

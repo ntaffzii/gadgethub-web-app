@@ -1,0 +1,312 @@
+{% block title %}{{ title }} - GadgetHub{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <!-- Card Header -->
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h2 class="mb-0">
+                        <i class="fas fa-user-plus me-2"></i>สมัครสมาชิก GadgetHub
+                    </h2>
+                    <p class="mb-0 mt-2 opacity-75">สร้างบัญชีใหม่เพื่อเริ่มซื้อสินค้า</p>
+                </div>
+                
+                <div class="card-body p-4">
+                    <!-- Registration Form -->
+                    <form method="POST" id="registrationForm" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <!-- Username Field -->
+                        <div class="mb-3">
+                            {{ form.username.label(class="form-label fw-bold") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                {{ form.username(class="form-control", placeholder="กรอกชื่อผู้ใช้", autocomplete="username") }}
+                                <div class="valid-feedback">
+                                    <i class="fas fa-check"></i> ชื่อผู้ใช้นี้ใช้ได้
+                                </div>
+                                <div class="invalid-feedback" id="username-error">
+                                    {% for error in form.username.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <small class="form-text text-muted">ตัวอักษร ตัวเลข - และ _ เท่านั้น (3-20 ตัวอักษร)</small>
+                        </div>
+                        
+                        <!-- Email Field -->
+                        <div class="mb-3">
+                            {{ form.email.label(class="form-label fw-bold") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                {{ form.email(class="form-control", placeholder="example@email.com", autocomplete="email") }}
+                                <div class="valid-feedback">
+                                    <i class="fas fa-check"></i> อีเมลนี้ใช้ได้
+                                </div>
+                                <div class="invalid-feedback" id="email-error">
+                                    {% for error in form.email.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Name Fields Row -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.first_name.label(class="form-label fw-bold") }}
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    {{ form.first_name(class="form-control", placeholder="ชื่อ", autocomplete="given-name") }}
+                                </div>
+                                {% for error in form.first_name.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                {{ form.last_name.label(class="form-label fw-bold") }}
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    {{ form.last_name(class="form-control", placeholder="นามสกุล", autocomplete="family-name") }}
+                                </div>
+                                {% for error in form.last_name.errors %}
+                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Phone Field -->
+                        <div class="mb-3">
+                            {{ form.phone.label(class="form-label fw-bold") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                {{ form.phone(class="form-control", placeholder="08xxxxxxxx (ไม่บังคับ)", autocomplete="tel") }}
+                            </div>
+                            {% for error in form.phone.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Password Fields -->
+                        <div class="mb-3">
+                            {{ form.password.label(class="form-label fw-bold") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                {{ form.password(class="form-control", placeholder="รหัสผ่าน", autocomplete="new-password") }}
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye" id="passwordIcon"></i>
+                                </button>
+                            </div>
+                            {% for error in form.password.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                            
+                            <!-- Password Strength Indicator -->
+                            <div class="mt-2">
+                                <div class="progress" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar" id="passwordStrength"></div>
+                                </div>
+                                <small class="form-text" id="passwordHelp">ต้องมี: ตัวพิมพ์ใหญ่ ตัวพิมพ์เล็ก ตัวเลข และอย่างน้อย 6 ตัวอักษร</small>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            {{ form.confirm_password.label(class="form-label fw-bold") }}
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                {{ form.confirm_password(class="form-control", placeholder="ยืนยันรหัสผ่าน", autocomplete="new-password") }}
+                                <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                    <i class="fas fa-eye" id="confirmPasswordIcon"></i>
+                                </button>
+                            </div>
+                            {% for error in form.confirm_password.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Terms and Conditions -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                {{ form.agree_terms(class="form-check-input") }}
+                                {{ form.agree_terms.label(class="form-check-label") }}
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">เงื่อนไขการใช้งาน</a>
+                                และ <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">นโยบายความเป็นส่วนตัว</a>
+                            </div>
+                            {% for error in form.agree_terms.errors %}
+                                <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid mb-3">
+                            {{ form.submit(class="btn btn-primary btn-lg", id="submitBtn") }}
+                        </div>
+                        
+                        <!-- Login Link -->
+                        <div class="text-center">
+                            <p class="mb-0">มีบัญชีอยู่แล้ว? 
+                                <a href="{{ url_for('auth.login') }}" class="text-decoration-none">เข้าสู่ระบบที่นี่</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Real-time Username Check
+    const usernameField = document.getElementById('username');
+    const emailField = document.getElementById('email');
+    const passwordField = document.getElementById('password');
+    const confirmPasswordField = document.getElementById('confirm_password');
+    
+    // Username validation
+    let usernameTimeout;
+    usernameField.addEventListener('input', function() {
+        clearTimeout(usernameTimeout);
+        usernameTimeout = setTimeout(checkUsername, 500);
+    });
+    
+    function checkUsername() {
+        const username = usernameField.value.trim();
+        if (username.length >= 3) {
+            fetch(`/auth/check-username?username=${encodeURIComponent(username)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.available) {
+                        usernameField.classList.remove('is-invalid');
+                        usernameField.classList.add('is-valid');
+                        document.getElementById('username-error').textContent = '';
+                    } else {
+                        usernameField.classList.remove('is-valid');
+                        usernameField.classList.add('is-invalid');
+                        document.getElementById('username-error').textContent = data.message;
+                    }
+                });
+        }
+    }
+    
+    // Email validation
+    let emailTimeout;
+    emailField.addEventListener('input', function() {
+        clearTimeout(emailTimeout);
+        emailTimeout = setTimeout(checkEmail, 500);
+    });
+    
+    function checkEmail() {
+        const email = emailField.value.trim();
+        if (email.includes('@')) {
+            fetch(`/auth/check-email?email=${encodeURIComponent(email)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.available) {
+                        emailField.classList.remove('is-invalid');
+                        emailField.classList.add('is-valid');
+                        document.getElementById('email-error').textContent = '';
+                    } else {
+                        emailField.classList.remove('is-valid');
+                        emailField.classList.add('is-invalid');
+                        document.getElementById('email-error').textContent = data.message;
+                    }
+                });
+        }
+    }
+    
+    // Password strength check
+    passwordField.addEventListener('input', function() {
+        checkPasswordStrength();
+        checkPasswordMatch();
+    });
+    
+    confirmPasswordField.addEventListener('input', checkPasswordMatch);
+    
+    function checkPasswordStrength() {
+        const password = passwordField.value;
+        const strengthBar = document.getElementById('passwordStrength');
+        const helpText = document.getElementById('passwordHelp');
+        
+        let strength = 0;
+        let messages = [];
+        
+        if (password.length >= 6) strength += 25;
+        else messages.push('อย่างน้อย 6 ตัวอักษร');
+        
+        if (/[A-Z]/.test(password)) strength += 25;
+        else messages.push('ตัวพิมพ์ใหญ่');
+        
+        if (/[a-z]/.test(password)) strength += 25;
+        else messages.push('ตัวพิมพ์เล็ก');
+        
+        if (/[0-9]/.test(password)) strength += 25;
+        else messages.push('ตัวเลข');
+        
+        // Update progress bar
+        strengthBar.style.width = strength + '%';
+        
+        if (strength < 50) {
+            strengthBar.className = 'progress-bar bg-danger';
+            helpText.textContent = 'รหัสผ่านต้องมี: ' + messages.join(', ');
+            helpText.className = 'form-text text-danger';
+        } else if (strength < 100) {
+            strengthBar.className = 'progress-bar bg-warning';
+            helpText.textContent = 'รหัsผ่านต้องมี: ' + messages.join(', ');
+            helpText.className = 'form-text text-warning';
+        } else {
+            strengthBar.className = 'progress-bar bg-success';
+            helpText.textContent = 'รหัสผ่านแข็งแกร่ง';
+            helpText.className = 'form-text text-success';
+        }
+    }
+    
+    function checkPasswordMatch() {
+        const password = passwordField.value;
+        const confirmPassword = confirmPasswordField.value;
+        
+        if (confirmPassword && password !== confirmPassword) {
+            confirmPasswordField.classList.add('is-invalid');
+            confirmPasswordField.classList.remove('is-valid');
+        } else if (confirmPassword) {
+            confirmPasswordField.classList.remove('is-invalid');
+            confirmPasswordField.classList.add('is-valid');
+        }
+    }
+    
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const icon = document.getElementById('passwordIcon');
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    });
+    
+    document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+        const icon = document.getElementById('confirmPasswordIcon');
+        if (confirmPasswordField.type === 'password') {
+            confirmPasswordField.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            confirmPasswordField.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    });
+    
+    // Form submission
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        const submitBtn = document.getElementById('submitBtn');
+        
+        // Show loading state
+        submitBtn.
+</script>
+{% endblock %}

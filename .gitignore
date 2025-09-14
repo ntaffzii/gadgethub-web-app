@@ -1,0 +1,12 @@
+# .gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+gadgethub_env/
+*.db
+.DS_Store
+.vscode/
+*.log
+.GadgetHub - Daily Development Schedule
